@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}{{ post.title }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<div class="post body">{{ post.body }}</div>
+{% endblock %}

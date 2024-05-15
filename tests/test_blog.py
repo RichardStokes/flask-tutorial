@@ -88,3 +88,8 @@ def test_delete(client, auth, app):
 		db = get_db()
 		post = db.execute('SELECT * FROM post WHERE id = 1').fetchone()
 		assert post is None
+
+
+def test_show(client):
+	response = client.get('/1')
+	assert response.status_code == 200

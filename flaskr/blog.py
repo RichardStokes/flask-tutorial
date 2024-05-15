@@ -100,3 +100,10 @@ def delete(id):
 	db.commit()
 	return redirect(url_for('blog.index'))
 
+
+@bp.route('/<int:id>', methods=('GET',))
+def show(id):
+	post = get_post(id, check_author=False)
+	return render_template('blog/show.html', post=post)
+
+

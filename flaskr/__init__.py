@@ -28,7 +28,7 @@ def create_app(test_config=None):
 	app.register_blueprint(blog.bp)
 	app.add_url_rule('/', endpoint='index')
 
-	@app.route('/hello/')
+	@app.route('/hello')
 	def hello():
 		return "Hello, World!"
 

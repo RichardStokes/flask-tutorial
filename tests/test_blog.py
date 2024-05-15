@@ -93,3 +93,5 @@ def test_delete(client, auth, app):
 def test_show(client):
 	response = client.get('/1')
 	assert response.status_code == 200
+	assert b'test' in response.data
+

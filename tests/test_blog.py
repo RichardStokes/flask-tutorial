@@ -1,5 +1,6 @@
 import pytest
 from flaskr.db import get_db
+from flask import g
 
 
 def test_index(client, auth):
@@ -91,7 +92,24 @@ def test_delete(client, auth, app):
 
 
 def test_show(client):
-	response = client.get('/1')
+	response = client.get('/1/')
 	assert response.status_code == 200
 	assert b'test' in response.data
+
+def test_like(client, auth, app):
+	with app.app_context():
+		db = get_db()
+		like = db.execute('SELECT * FROM like').fetchone()
+		assert like is None
+
+		auth.login(username='other', password='other')
+		response = client.post('/1/like')
+		# print(f"RESPONSE: {response}")
+		assert response.headers["Location"] == "/1/"
+
+		db = get_db()
+		like = db.execute('SELECT * FROM like').fetchone()
+		assert like is not None
+		assert like['user_id'] == 2
+		assert like['post_id'] == 1
 

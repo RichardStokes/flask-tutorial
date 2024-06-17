@@ -106,4 +106,34 @@ def show(id):
 	post = get_post(id, check_author=False)
 	return render_template('blog/show.html', post=post)
 
+@bp.route('/<int:id>/like', methods=('POST',))
+@login_required
+def like(id):
+	post = get_post(id, check_author=False)
+	user = g.user
+
+	db = get_db()
+	like = db.execute("""
+				   SELECT * FROM like
+				   WHERE user_id = ?
+				   AND post_id = ?
+				   """, (user['id'],
+			 post['id'])
+	).fetchone()
+	print(like)
+
+	if like:
+		db.execute("""
+			 DELETE FROM like
+			 WHERE id = ?"""
+		, (like['id'])
+		)
+	else:
+		db.execute("""
+			 INSERT INTO like(user_id, post_id)
+			 VALUES (?, ?)
+			 """, (user['id'], post['id'])
+		)
+	
+	return redirect(url_for('blog.show', id=post['id']))
 

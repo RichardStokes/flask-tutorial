@@ -9,4 +9,7 @@
       {% endif %}
   </header>
   <p class="body">{{ post['body'] }}</p>
+  <form class="like"  action="/{{ post['id'] }}/like" method="POST">
+    <button type="submit">Like</button>
+  </form>
 </article>

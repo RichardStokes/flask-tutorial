@@ -111,7 +111,6 @@ def show(id):
 def like(id):
 	post = get_post(id, check_author=False)
 	user = g.user
-
 	db = get_db()
 	like = db.execute("""
 				   SELECT * FROM like
@@ -120,20 +119,20 @@ def like(id):
 				   """, (user['id'],
 			 post['id'])
 	).fetchone()
-	print(like)
 
 	if like:
 		db.execute("""
 			 DELETE FROM like
 			 WHERE id = ?"""
-		, (like['id'])
+		, (like['id'],)
 		)
+		db.commit()
 	else:
 		db.execute("""
 			 INSERT INTO like(user_id, post_id)
 			 VALUES (?, ?)
 			 """, (user['id'], post['id'])
 		)
-	
+		db.commit()
 	return redirect(url_for('blog.show', id=post['id']))
 

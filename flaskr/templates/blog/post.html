@@ -9,7 +9,9 @@
       {% endif %}
   </header>
   <p class="body">{{ post['body'] }}</p>
+  {% if g.user %}
   <form class="like"  action="/{{ post['id'] }}/like" method="POST">
-    <button type="submit">Like</button>
+    <button type="submit">{{ "Like" if not liked else "Unlike" }}</button> 
   </form>
+  {% endif %}
 </article>

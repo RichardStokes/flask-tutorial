@@ -58,8 +58,18 @@ def get_post(id, check_author=True):
 							WHERE post_id = ?
 							""", (id,)
 	).fetchall()
+
+	comments = db.execute("""
+					   SELECT created, body, u.username as author_username
+					   FROM comment JOIN user u
+					   ON comment.author_id = u.username
+					   WHERE post_id = ?
+					   """, (id,)
+	).fetchall()
+
 	if post:
 		post['likes'] = (like['user_id'] for like in likes)
+		post['comments'] = comments
 
 	if post is None:
 		abort(404, f'Post id {id} doesn\'t exist')

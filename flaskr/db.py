@@ -1,7 +1,7 @@
 import sqlite3
-
 import click
 from flask import current_app, g
+from flaskr.seed import build_query, seed_data
 
 
 def dict_factory(cursor, row):
@@ -33,6 +33,14 @@ def init_db():
 	with current_app.open_resource('schema.sql') as f:
 		db.executescript(f.read().decode('utf-8'))
 
+def seed_db(data):
+	db = get_db()
+	queries = [ build_query(table, values) for table, values in data.items() ]
+	for query in queries:
+		db.execute(query)
+	db.commit()
+
+
 @click.command('init-db')
 def init_db_command():
 	"""Clear the existing data and create new tables"""
@@ -40,6 +48,14 @@ def init_db_command():
 	click.echo('Initialized the database.')
 
 
+@click.command('seed-db')
+def seed_db_command():
+	"""Populate the currently existing database with seed data"""
+	seed_db(seed_data())
+	click.echo("Seeded the database.")
+
+
 def init_app(app):
 	app.teardown_appcontext(close_db)
 	app.cli.add_command(init_db_command)
+	app.cli.add_command(seed_db_command)

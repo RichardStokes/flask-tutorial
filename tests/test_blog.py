@@ -99,17 +99,24 @@ def test_show(client):
 def test_like(client, auth, app):
 	with app.app_context():
 		db = get_db()
+		
+		# assert that there are no likes to begin with
 		like = db.execute('SELECT * FROM like').fetchone()
 		assert like is None
 
+		# assert that liking a post redirects you to that post's page
 		auth.login(username='other', password='other')
 		response = client.post('/1/like')
-		# print(f"RESPONSE: {response}")
 		assert response.headers["Location"] == "/1/"
 
-		db = get_db()
-		like = db.execute('SELECT * FROM like').fetchone()
+		# assert that a post has in fact been created by hitting that route
+		like = db.execute('SELECT * FROM like;').fetchone()
 		assert like is not None
 		assert like['user_id'] == 2
 		assert like['post_id'] == 1
+
+		# assert that hitting the route a second time will delete the post
+		response = client.post('/1/like')
+		like = db.execute('SELECT * FROM like;').fetchone()
+		assert like is None
 

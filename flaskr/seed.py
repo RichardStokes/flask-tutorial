@@ -1,5 +1,6 @@
 # import sqlite3
 from faker import Faker
+from werkzeug.security import generate_password_hash
 
 
 def build_query(table_name, data = {}):
@@ -16,7 +17,7 @@ def seed_data():
     data = {
         'user': {
             'username': (fake.name() for _ in range(10)),
-            'password': ('pwd' for _ in range(10))
+            'password': (generate_password_hash('pwd') for _ in range(10))
         },
         'post': {
             'author_id': range(1,11),

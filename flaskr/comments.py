@@ -7,7 +7,7 @@ bp = Blueprint('comment', __name__)
 @bp.route('/<int:id>/comments/', methods=('POST',))
 @login_required
 def create_comment(id):
-    comment_body = request.form['body']
+    comment_body = request.form['comment-body']
     author_id = g.user['id']
     
     db = get_db()

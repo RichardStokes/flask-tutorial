@@ -62,7 +62,7 @@ def get_post(id, check_author=True):
 	comments = db.execute("""
 					   SELECT created, body, u.username as author_username
 					   FROM comment JOIN user u
-					   ON comment.author_id = u.username
+					   ON comment.author_id = u.id
 					   WHERE post_id = ?
 					   """, (id,)
 	).fetchall()

@@ -24,8 +24,10 @@ def create_app(test_config=None):
 
 	from . import auth
 	from . import blog
+	from . import comments
 	app.register_blueprint(auth.bp)
 	app.register_blueprint(blog.bp)
+	app.register_blueprint(comments.bp)
 	app.add_url_rule('/', endpoint='index')
 
 	@app.route('/hello')

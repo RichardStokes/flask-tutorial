@@ -18,7 +18,17 @@ def index():
 		ON p.author_id = u.id ORDER BY created DESC
 		"""
 	).fetchall()
-	return render_template('blog/index.html', posts=posts)
+	
+	likes = db.execute("""
+		SELECT *
+		FROM like;""")
+	
+	comments = db.execute("SELECT * FROM comment;")
+	for post in posts:
+		
+		post['likes'] = list(filter(lambda n: n['user_id'] == post['author_id'], likes))
+		post['comments'] = list(filter(lambda n: n['post_id'] == post['id'], comments))
+	return render_template('blog/index.html', posts=posts, is_post_index=True)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required

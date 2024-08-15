@@ -1,6 +1,6 @@
 html { font-family: sans-serif; background: #eee; padding: 1rem; }
 body { max-width: 960px; margin: 0 auto; background: white; }
-h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
+h1,h2,h3 { font-family: serif; color: #377ba8; margin: 1rem 0; }
 a { color: #377ba8; }
 hr { border: none; border-top: 1px solid lightgray; }
 nav { background: lightgray; display: flex; align-items: center; padding: 0 0.5rem; }
@@ -25,3 +25,9 @@ nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
 input.danger { color: #cc2f2e; }
 input[type=submit] { align-self: start; min-width: 10em; }
 a.post-title { text-decoration: none }
+
+form.like { display: block; }
+h2 { font-size: 1.5em; }
+h4.comment-author { margin-bottom: 0; }
+.timestamp { font-style: italic; }
+.comment > header { margin-bottom: 10px }

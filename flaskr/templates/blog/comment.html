@@ -1,5 +1,7 @@
 <article class="comment">
-    <span class="comment-author">{{ comment.author_username }}.</span>
-    <span class="timestamp">Left at {{ comment.created }}</span>
+    <header>
+        <h4 class="comment-author">{{ comment.author_username }}.</h4>
+        <span class="timestamp">Left at {{ comment.created }}</span>
+    </header>
     <div class="comment-body">{{ comment.body }}</div>
 </article>

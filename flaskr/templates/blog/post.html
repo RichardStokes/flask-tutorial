@@ -13,13 +13,17 @@
   <form class="like"  action="/{{ post['id'] }}/like" method="POST">
     <button type="submit">{{ "Like" if not liked else "Unlike" }}</button> 
   </form>
+  {% if not is_post_index %}
+  <h3>Comments</h3>
   {% for comment in post['comments'] %}
     {% include 'blog/comment.html' %}
   {% endfor %}
   <form action="{{ url_for('comment.create_comment', id=post['id']) }}" method="POST" class="comment">
     <label for="comment-body">Comment</label>
-    <input type="text" name="comment-body" id="comment-body">
+    <textarea name="comment-body" id="comment-body" rows="5" cols="33">It was a dark and stormy night...
+    </textarea>
     <button type="submit">Add comment.</button>
   </form>
+  {% endif %}
   {% endif %}
 </article>
